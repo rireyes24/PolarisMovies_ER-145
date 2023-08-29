@@ -8,8 +8,9 @@ import { GenresTable } from "../components/GenresTable";
 const Container = styled.section`
     width: 100%;
     height: 580px;
-    background-color: #123E35;    
-    margin-top: 20px;
+    background-color: var(--Center-Brick);    
+    margin: 0 auto;
+    margin-top: 40px;  
 `;
 
 const TrendsScrollBar = styled.div`

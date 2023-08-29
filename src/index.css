@@ -6,13 +6,18 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #5483b3;
+  background-color: var(--Top-Brick);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  /* Industrial Brick */
+  --Top-Brick: #121b22;
+  --Center-Brick: #204254;
+  --Botton-Brick: #000000;
 }
 
 *{
@@ -28,4 +33,17 @@ html{
 
 body {
   width: 100%;
+}
+
+/* scrollbar */
+
+::-webkit-scrollbar{
+  width: 10px;
+  height: 10px;
+  background-color: #ffffff59;
+}
+
+::-webkit-scrollbar-thumb{
+  background-color: #dbdbdb;
+  border-radius: 50px;
 }

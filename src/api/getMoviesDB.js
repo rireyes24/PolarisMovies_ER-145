@@ -1,9 +1,9 @@
-
-const API_KEY = 'a244a9216439c099f1669f3d6777d613'; 
+import { apiConfiguration } from "./apiConfig";
 
 const getMovies = async (movieID) => {
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieID}?api_key=${API_KEY}&language=es`);
+    const config = await apiConfiguration();
 
+    const response = await fetch(`${config.URL_MOVIE}/${movieID}?api_key=${config.API_KEY}&language=en`);
     const data = await response.json();
     return data;
 }

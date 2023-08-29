@@ -1,4 +1,5 @@
-import { Input } from 'antd';
+import { Input, Button } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { pathProcessor } from '../utils/pathProcessor';
@@ -8,7 +9,7 @@ const { Search } = Input;
 const ContainerNavBar = styled.section`
     width: 100%;
     height: 12vh;
-    background-color: #123E35;
+    background-color: var(--Center-Brick);
     display: grid;
     align-items: center;
     justify-content: right;
@@ -55,7 +56,7 @@ const ImageMovie = styled.img`
 `;
 
 // eslint-disable-next-line react/prop-types
-const NavBar = ({refMovie, searchMovie, searchValue, searchData, movieSelected}) => {
+const NavBar = ({refMovie, searchMovie, searchValue, searchData, movieSelected, searchID}) => {
 
    
 
@@ -68,7 +69,7 @@ const NavBar = ({refMovie, searchMovie, searchValue, searchData, movieSelected})
                 value={searchValue}
                 placeholder="Buscar Pelicula..." 
                 onSearch={''} 
-                enterButton
+                enterButton=''
                 size='large'
                 style={{
                     width: 300,
@@ -90,7 +91,9 @@ const NavBar = ({refMovie, searchMovie, searchValue, searchData, movieSelected})
                                 }}
                                 onClick={() => {
                                     movieSelected(movie);
-                                }} to={`pelicula/${pathProcessor(movie.title)}`}>{movie.title}</Link>
+                                    searchID();
+                                    window.location.assign();
+                                }} to={`pelicula/${searchID()}`}>{movie.title}</Link>
                         </ContainerMovie>
                     ))            
                 }                

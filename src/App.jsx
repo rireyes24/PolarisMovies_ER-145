@@ -1,42 +1,21 @@
 import { useState, useEffect, useRef } from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { getMovies } from './api/getMoviesDB'
 import { getSearchMovie } from './api/getSearchMovies'
 import { MoviePage } from './pages/MoviePage'
 import { Home } from './pages/HomePage'
-import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom'
-import { Header } from './components/Header'
+import { NavigtionBar } from './components/NavigationBar'
 import { NavBar } from './components/NavBar'
-import { pathProcessor } from './utils/pathProcessor'
+///import { pathProcessor } from './utils/pathProcessor'
 import './App.css'
 
-
-function replaceQueryParam(url, oldParam, newParam, newValue) {
-  const queryParams = new URLSearchParams(new URL(url).search);
-  queryParams.delete(oldParam);
-  queryParams.set(newParam, newValue);
-  return url.split('?')[0] + '?' + queryParams.toString();
-}
 
 
 function App() {  
   const [dataMovies, setDataMovies] = useState({});
-  const [validationMovie, setValidationMovie] = useState(true);
   const [genresMovie, setGenresMovie] = useState([]);
 
-  // Section URL
-  const { id } = useParams();
-
-  const currentURL = window.location.href;
-
-  // Crear una nueva URL con el nombre del parámetro cambiado
-  const newParamName = "newId";
-  const newParamValue = "the-falsh"; // Nuevo valor del parámetro
-  const newURL = replaceQueryParam(currentURL, "id", newParamName, newParamValue);
-
-  // Actualizar la URL en la barra de navegación
-  window.history.replaceState({}, document.title, newURL);
-
-
+ 
 
   // Only Movie Section
   const [movieSelected, setMovieSelected] = useState({});
@@ -50,67 +29,83 @@ function App() {
     setSearch(refMovie.current.input.value);               
   }
 
-  // const newURL = currentURL.split('/');
-  // const arrayURL = newURL[newURL.length -1]
-  console.log('El ID es: ', curr);
+
+  // Section Location 
+  //      Funciona al ingrasar el id por medio de la barra de busqueda.
+
+  const movieLocation = () => {
+    const location = window.location.pathname;
+    const pathMovie = location.split('/')[2] || '111';
+    let extrackID = pathMovie.split('-')[0];
+
+    return extrackID;
+  }
 
 
-  // Función para reemplazar un parámetro en la URL
+  // Section Location 
+  //      Funciona al ingrasar a la caja de busqueda.
 
+  const searchID = () => {
+    const movieID = movieSelected.id;
+    let pathMovie = window.location.pathname.split('/')[2];
+    pathMovie = movieID;
+
+    return pathMovie;    
+  }
+
+  
 
   useEffect(() => {
-    getSearchMovie(arrayURL)
-      .then(dataSearch => {
-        setSearchData(dataSearch);
+    getMovies(movieLocation())
+      .then(dataMovie => {
+        setDataMovies(dataMovie);
+        setGenresMovie(dataMovie.genres);
       })
       .catch(error => {
         console.error(error);
       })
   }, []);
 
-  // useEffect(() => {
-  //   getSearchMovie(search)
-  //     .then(dataSearch => {
-  //       setSearchData(dataSearch);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     })
-  // }, [search]);
-
-
-
- 
-  
+  useEffect(() => {
+    getSearchMovie(search)
+      .then(dataSearch => {
+        setSearchData(dataSearch);
+      })
+      .catch(error => {
+        console.error(error);
+      })
+  }, [search]);
 
   return (
     <>
-      <BrowserRouter>
-        <Header></Header>
+      <Router>
+        <NavigtionBar
+        ></NavigtionBar>
         <NavBar 
           refMovie={refMovie}
           searchMovie={searchMovie}
           searchValue={search}
           searchData={searchData}
           movieSelected={setMovieSelected}
+          searchID={searchID}
         ></NavBar>
         <Routes>
           <Route path='/home' element={
-            <Home></Home>
+            <Home />
           }></Route>
           <Route path="/pelicula/:id" element={
             <MoviePage
-              title={movieSelected.title}  
-              imagePath={movieSelected.poster_path}
-              description={movieSelected.overview}
-              voteAverage={movieSelected.vote_average}
-              releaseDate={movieSelected.release_date}
+              title={dataMovies.title}  
+              imagePath={dataMovies.poster_path}
+              description={dataMovies.overview}
+              voteAverage={dataMovies.vote_average}
+              releaseDate={dataMovies.release_date}
               genres={genresMovie}
             ></MoviePage>
           }></Route>
           <Route path='*' element={<h1>Error 404 - Not Found</h1>}></Route>
         </Routes>
-      </BrowserRouter>
+      </Router>
     </>
   )
 }

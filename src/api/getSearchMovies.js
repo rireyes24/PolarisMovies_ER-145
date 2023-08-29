@@ -1,11 +1,10 @@
-const API_KEY = 'a244a9216439c099f1669f3d6777d613'; 
+import { apiConfiguration } from "./apiConfig";
 
 const getSearchMovie = async (searchBar) => {
+    const config = await apiConfiguration();
 
-    const response = await fetch(`https://api.themoviedb.org/3/search/movie?query=${searchBar}&api_key=${API_KEY}&language=en`);
-
+    const response = await fetch(`${config.URL_SEARCH}/movie?query=${searchBar}&api_key=${config.API_KEY}&language=en`);
     const data = await response.json();
-    console.log(data);
     return data.results;
 }
 

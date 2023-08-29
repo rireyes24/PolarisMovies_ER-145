@@ -5,7 +5,7 @@ import { StarFilled } from "@ant-design/icons";
 const ContainerMovie = styled.section`
     width: 100%;
     height: 88vh;
-    background-color: #123E35;
+    background-color: var(--Center-Brick);
     display: grid;
     grid-template-columns: 35% 65%;
     grid-template-rows: 14% 18% 40% 14% 14%;
