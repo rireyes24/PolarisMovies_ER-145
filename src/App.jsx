@@ -3,17 +3,40 @@ import { getMovies } from './api/getMoviesDB'
 import { getSearchMovie } from './api/getSearchMovies'
 import { MoviePage } from './pages/MoviePage'
 import { Home } from './pages/HomePage'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom'
 import { Header } from './components/Header'
 import { NavBar } from './components/NavBar'
 import { pathProcessor } from './utils/pathProcessor'
 import './App.css'
 
 
+function replaceQueryParam(url, oldParam, newParam, newValue) {
+  const queryParams = new URLSearchParams(new URL(url).search);
+  queryParams.delete(oldParam);
+  queryParams.set(newParam, newValue);
+  return url.split('?')[0] + '?' + queryParams.toString();
+}
+
+
 function App() {  
   const [dataMovies, setDataMovies] = useState({});
   const [validationMovie, setValidationMovie] = useState(true);
   const [genresMovie, setGenresMovie] = useState([]);
+
+  // Section URL
+  const { id } = useParams();
+
+  const currentURL = window.location.href;
+
+  // Crear una nueva URL con el nombre del parámetro cambiado
+  const newParamName = "newId";
+  const newParamValue = "the-falsh"; // Nuevo valor del parámetro
+  const newURL = replaceQueryParam(currentURL, "id", newParamName, newParamValue);
+
+  // Actualizar la URL en la barra de navegación
+  window.history.replaceState({}, document.title, newURL);
+
+
 
   // Only Movie Section
   const [movieSelected, setMovieSelected] = useState({});
@@ -27,31 +50,33 @@ function App() {
     setSearch(refMovie.current.input.value);               
   }
 
-  useEffect(() => {
-    if(validationMovie === true){      
-      getMovies()
-        .then(data => {
-          setDataMovies(data);
-          // setGenresMovie(data.genres);
-          setValidationMovie(false);
-        }).catch(error => {
-          console.error(error);
-        })
-    }
+  // const newURL = currentURL.split('/');
+  // const arrayURL = newURL[newURL.length -1]
+  console.log('El ID es: ', curr);
 
-    
 
-  }, []);
+  // Función para reemplazar un parámetro en la URL
+
 
   useEffect(() => {
-    getSearchMovie(search)
+    getSearchMovie(arrayURL)
       .then(dataSearch => {
         setSearchData(dataSearch);
       })
       .catch(error => {
         console.error(error);
       })
-  }, [search]);
+  }, []);
+
+  // useEffect(() => {
+  //   getSearchMovie(search)
+  //     .then(dataSearch => {
+  //       setSearchData(dataSearch);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     })
+  // }, [search]);
 
 
 
@@ -73,7 +98,7 @@ function App() {
           <Route path='/home' element={
             <Home></Home>
           }></Route>
-          <Route path={`pelicula/${pathProcessor(movieSelected.title)}`} element={
+          <Route path="/pelicula/:id" element={
             <MoviePage
               title={movieSelected.title}  
               imagePath={movieSelected.poster_path}
