@@ -25,6 +25,12 @@ const H4 = styled.button`
     width: 80%;
     height: 20px;   
     display: block;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    text-align: left;
+    margin-left: 16px;
 `;
 
 const ContainerItem = styled.div`
@@ -33,7 +39,8 @@ const ContainerItem = styled.div`
     display: flex;    
     justify-content: center;
     align-items: center;
-    justify-self: center;
+    justify-self: right;
+    align-self: center;
 `;
 
 

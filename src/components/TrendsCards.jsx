@@ -18,7 +18,7 @@ const TrendsCards = ({imagePath, title, year, goMovie}) => {
                 position: 'relative',
                 width: '100%',
                 minWidth: '190px',
-                maxWidth: '300px',
+                maxWidth: '200px',
                 scrollSnapAlign: 'center',
                 marginLeft: '20px',                
             }}
