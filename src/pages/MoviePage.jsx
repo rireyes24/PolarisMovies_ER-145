@@ -8,17 +8,17 @@ const ContainerMovie = styled.section`
     background-color: var(--Center-Brick);
     display: grid;
     grid-template-columns: 35% 65%;
-    grid-template-rows: 14% 18% 40% 14% 14%;
+    grid-template-rows: 10% 18% 26% 23% 14%;
     padding: 0% 2%;
 `;
 
 const ContainerImage = styled.div`
-    height: 80%;
+    height: 100%;
     grid-column: 1 / 2;
     grid-row: 1 / 5;
     justify-self: center;
-    align-self: center;   
-    background-color: blue;
+    align-self: center;       
+    object-fit: contain;
 `;
 
 const Title = styled.h2`
@@ -28,8 +28,9 @@ const Title = styled.h2`
     grid-row: 2 / 3;
     display: flex;
     align-items: center;
-    font-size: 42px;
-    align-self: center;
+    font-size: 32px;
+    align-self: top;
+    text-align: left;
 `;
 
 const ContainerVote = styled.div`
@@ -57,7 +58,7 @@ const ContainerRelease = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
-    grid-column: 1 / 2;
+    grid-column: 2 / 3;
     grid-row: 5 / 6;    
 `;
 
@@ -67,7 +68,7 @@ const ContainerGenres = styled.div`
     display: flex;
     flex-direction: column;
     grid-column: 2 / 3;
-    grid-row: 5 / 6;    
+    grid-row: 4 / 5;    
 `;
 
 const Text = styled.h3`
@@ -86,6 +87,12 @@ const Description = styled.p`
     text-align: left;
     word-wrap: break-word; /* Divide palabras largas en varias líneas */
     overflow-wrap: break-word; 
+`;
+
+const Genres = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 `;
 
 // eslint-disable-next-line react/prop-types, no-unused-vars
@@ -125,7 +132,9 @@ const MoviePage = ({title, imagePath, description, voteAverage, releaseDate, gen
                     <Description>{
                         // eslint-disable-next-line react/prop-types
                         genres.map(genre => (
-                            <span key={genre.id}>{genre.name}</span>
+                            <Genres key={genre.id}>
+                                <h4>{genre.name}</h4>
+                            </Genres>
                         ))
                     }</Description>
                 </ContainerGenres>

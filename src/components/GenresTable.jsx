@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
 import { styled } from "styled-components"
-import { getCategories } from '../api/getCategories'
 import { colors } from "../utils/colors";
+import { pathProcessor } from "../utils/pathProcessor";
+import { useCategories } from "../hooks/useCategories";
 
 const Table = styled.div`
     width: 80%;
@@ -21,12 +21,11 @@ const BlockColors = styled.div`
     border-radius: 8px;
 `;
 
-const H4 = styled.h4`
+const H4 = styled.button`
     width: 80%;
     height: 20px;   
     display: block;
 `;
-
 
 const ContainerItem = styled.div`
     width: 80%;
@@ -38,19 +37,10 @@ const ContainerItem = styled.div`
 `;
 
 
+// eslint-disable-next-line react/prop-types
 const GenresTable = () => {
                     
-    const [dataCategories, setDataCategories] = useState([]);
-
-    useEffect(() => {
-        getCategories()
-          .then(categories => {
-            setDataCategories(categories.genres);
-          })
-          .catch(error => {
-            console.error(error);
-          })
-      }, [])
+    const dataCategories = useCategories();
 
     return(
         <Table>
@@ -59,7 +49,10 @@ const GenresTable = () => {
                     return(
                         <ContainerItem key={category.id}>
                             <BlockColors style={{backgroundColor: colors[index]}}></BlockColors>
-                            <H4 >{category.name}</H4>
+                            <H4 onClick={() => {
+                                    window.location.pathname = `category/${category.id}-${pathProcessor(category.name)}`; 
+                                }} >{category.name}
+                            </H4>
                             <p></p>
                         </ContainerItem>
                     )

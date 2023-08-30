@@ -1,98 +1,42 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import { getMovies } from './api/getMoviesDB'
-import { getSearchMovie } from './api/getSearchMovies'
+import { useGetMovies } from './hooks/useGetMovies'
+import { useSearchMovie } from './hooks/useSearchMovie'
 import { MoviePage } from './pages/MoviePage'
 import { Home } from './pages/HomePage'
+import { GenresPage } from './pages/CategoryPage'
 import { NavigtionBar } from './components/NavigationBar'
-import { NavBar } from './components/NavBar'
-///import { pathProcessor } from './utils/pathProcessor'
+import { HeaderSearch } from './components/HeaderSearch'
 import './App.css'
 
 
-
 function App() {  
-  const [dataMovies, setDataMovies] = useState({});
-  const [genresMovie, setGenresMovie] = useState([]);
 
- 
-
-  // Only Movie Section
-  const [movieSelected, setMovieSelected] = useState({});
-
-  //Search Section
-  const refMovie  = useRef(null);
-  const [search, setSearch] = useState('');
-  const [searchData, setSearchData] = useState([]);
-
-  const searchMovie = () => {
-    setSearch(refMovie.current.input.value);               
-  }
+  const {dataMovies, genresMovie} = useGetMovies();
+  const { search, searchData, searchMovie, refMovie } = useSearchMovie();
 
 
-  // Section Location 
-  //      Funciona al ingrasar el id por medio de la barra de busqueda.
-
-  const movieLocation = () => {
-    const location = window.location.pathname;
-    const pathMovie = location.split('/')[2] || '111';
-    let extrackID = pathMovie.split('-')[0];
-
-    return extrackID;
-  }
-
-
-  // Section Location 
-  //      Funciona al ingrasar a la caja de busqueda.
-
-  const searchID = () => {
-    const movieID = movieSelected.id;
-    let pathMovie = window.location.pathname.split('/')[2];
-    pathMovie = movieID;
-
-    return pathMovie;    
-  }
-
-  
-
-  useEffect(() => {
-    getMovies(movieLocation())
-      .then(dataMovie => {
-        setDataMovies(dataMovie);
-        setGenresMovie(dataMovie.genres);
-      })
-      .catch(error => {
-        console.error(error);
-      })
-  }, []);
-
-  useEffect(() => {
-    getSearchMovie(search)
-      .then(dataSearch => {
-        setSearchData(dataSearch);
-      })
-      .catch(error => {
-        console.error(error);
-      })
-  }, [search]);
+  // Category Section
+  const [dataCategory, setDataCategory] = useState();
 
   return (
     <>
       <Router>
-        <NavigtionBar
-        ></NavigtionBar>
-        <NavBar 
+        <NavigtionBar />
+        <HeaderSearch 
           refMovie={refMovie}
           searchMovie={searchMovie}
           searchValue={search}
           searchData={searchData}
-          movieSelected={setMovieSelected}
-          searchID={searchID}
-        ></NavBar>
+        ></HeaderSearch>
         <Routes>
+
           <Route path='/home' element={
-            <Home />
+            <Home 
+              setDataCategory={setDataCategory}
+            />
           }></Route>
+
           <Route path="/pelicula/:id" element={
             <MoviePage
               title={dataMovies.title}  
@@ -103,7 +47,17 @@ function App() {
               genres={genresMovie}
             ></MoviePage>
           }></Route>
-          <Route path='*' element={<h1>Error 404 - Not Found</h1>}></Route>
+
+          <Route path="/category/:id" element={
+            <GenresPage
+              dataCategory={dataCategory}
+            ></GenresPage>}
+          ></Route>
+
+          <Route path='*' element={
+            <h1>Error 404 - Not Found</h1>
+          }></Route>
+
         </Routes>
       </Router>
     </>

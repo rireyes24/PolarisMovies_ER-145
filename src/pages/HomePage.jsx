@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
-import { getTrends } from "../api/getTrends";
 import { TrendsCards } from "../components/TrendsCards";
 import { styled } from "styled-components";
 import { GenresTable } from "../components/GenresTable";
-
+import { pathProcessor } from "../utils/pathProcessor";
+import { useTrends } from "../hooks/useTrends";
 
 const Container = styled.section`
     width: 100%;
@@ -39,49 +38,43 @@ const Title = styled.h2`
 `;
 
 
+// eslint-disable-next-line react/prop-types
+const Home = ({ setDataCategory }) => {
 
-const Home = () => {
-
-    const [trendsData, setTrendsData] = useState([]);
-
-    useEffect(() => {
-        getTrends()
-            .then(data => {
-                setTrendsData(data);
-            })
-            .catch(error => {
-                console.error(error);
-            })
-    }, [])
+    const trendsData = useTrends();
 
     return(
         <>
             <Container>
-            <Title>Tendencias</Title>
-            <TrendsScrollBar>
-                {
-                    trendsData.map(trend => {
-                            const yearMovie = trend.release_date.split('-')
+                <Title>Tendencias</Title>
+                <TrendsScrollBar>
+                    {
+                        trendsData.map(trend => {
+                                const yearMovie = trend.release_date.split('-')
 
-                            return(
-                                <TrendsCards 
-                                    key={trend.id}
-                                    imagePath={trend.poster_path}
-                                    title={trend.title}
-                                    year={yearMovie[0]}
-                                ></TrendsCards>
-                            );
-                    })
-                }
-            </TrendsScrollBar>
-        </Container>
+                                return(                               
+                                    <TrendsCards
+                                        goMovie={() => {
+                                            window.location.pathname = `pelicula/${trend.id}-${pathProcessor(trend.title)}`;
+                                        }}
+                                        key={trend.id}                                 
+                                        imagePath={trend.poster_path}
+                                        title={trend.title}
+                                        year={yearMovie[0]}
+                                    ></TrendsCards> 
+                                );
+                        })
+                    }
+                </TrendsScrollBar>
+            </Container>
 
-        <Container>
-            <Title>Categorias</Title>
-            <GenresTable>
-
-            </GenresTable>
-        </Container>
+            <Container>
+                <Title>Categorias</Title>
+                <GenresTable
+                    setDataCategory={setDataCategory}
+                >
+                </GenresTable>
+            </Container>
         </>
     );
 }
