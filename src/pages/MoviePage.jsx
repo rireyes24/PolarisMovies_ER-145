@@ -1,21 +1,23 @@
 import { Image } from "antd";
 import { styled } from "styled-components";
 import { StarFilled } from "@ant-design/icons";
+import { RecommendationBar } from "../components/RecommendationBar";
+import { deleteDecimal } from "../utils/deleteDecimalAverage";
 
 const ContainerMovie = styled.section`
     width: 100%;
-    height: 88vh;
+    height: 1200px;
     background-color: var(--Center-Brick);
     display: grid;
-    grid-template-columns: 35% 65%;
-    grid-template-rows: 10% 18% 26% 23% 14%;
+    grid-template-columns: 30% 10% 60%;
+    grid-template-rows: 4% 8% 20% 14% 8% 4% 38%;
     padding: 0% 2%;
 `;
 
 const ContainerImage = styled.div`
-    height: 100%;
+    height: 90%;
     grid-column: 1 / 2;
-    grid-row: 1 / 5;
+    grid-row: 2 / 5;
     justify-self: center;
     align-self: center;       
     object-fit: contain;
@@ -24,7 +26,7 @@ const ContainerImage = styled.div`
 const Title = styled.h2`
     width: 80%;
     height: 80px;
-    grid-column: 2 / 3;
+    grid-column: 2 / 4;
     grid-row: 2 / 3;
     display: flex;
     align-items: center;
@@ -34,11 +36,12 @@ const Title = styled.h2`
 `;
 
 const ContainerVote = styled.div`
-    width: 14%;
-    height: 40%;
+    width: 60px;
+    height: 80px;
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
-    grid-column: 2 / 3;
+    grid-column: 3 / 4;
     grid-row: 2 / 3;
     justify-self: right;
     align-self: center;
@@ -46,20 +49,12 @@ const ContainerVote = styled.div`
 
 const ContainerDescription = styled.div`
     width: 100%;
-    height: 100%;
+    height: 90%;
     display: flex;
     flex-direction: column;
-    grid-column: 2 / 3;
+    justify-self: center;
+    grid-column: 3 / 4;
     grid-row: 3 / 4;    
-`;
-
-const ContainerRelease = styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    grid-column: 2 / 3;
-    grid-row: 5 / 6;    
 `;
 
 const ContainerGenres = styled.div`
@@ -67,9 +62,20 @@ const ContainerGenres = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
-    grid-column: 2 / 3;
+    grid-column: 3 / 4;
     grid-row: 4 / 5;    
 `;
+
+const ContainerRelease = styled.div`
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    grid-column: 3 / 4;
+    grid-row: 5 / 6;    
+`;
+
 
 const Text = styled.h3`
     width: 100%;
@@ -95,10 +101,28 @@ const Genres = styled.div`
     flex-direction: column;
 `;
 
+const ContainerRecommendations = styled.div`
+    width: 100%;
+    height: 440px;
+    display: flex;
+    grid-column: 1 / 4;
+    grid-row: 7 / 8;   
+    position: relative;
+    overflow-y: hidden;
+    transition: height .5s linear;
+    overflow-x: scroll;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    padding: 20px 10px;
+    margin-bottom: 40px;
+    align-self: center;
+
+`;
+
 // eslint-disable-next-line react/prop-types, no-unused-vars
 const MoviePage = ({title, imagePath, description, voteAverage, releaseDate, genres}) => {
 
-    const completeImageURL = `https://image.tmdb.org/t/p/w500${imagePath}`;
+    const completeImageURL = `https://image.tmdb.org/t/p/w500${imagePath}`;   
 
     return(
         <>            
@@ -111,7 +135,7 @@ const MoviePage = ({title, imagePath, description, voteAverage, releaseDate, gen
                             fontSize: '40px'
                         }}
                     />
-                    <h3>{voteAverage}</h3>
+                    <h3>{deleteDecimal(voteAverage) || 0}</h3>
                 </ContainerVote>                    
                 <ContainerImage>                    
                     <Image 
@@ -120,15 +144,15 @@ const MoviePage = ({title, imagePath, description, voteAverage, releaseDate, gen
                     ></Image>                    
                 </ContainerImage>
                 <ContainerDescription>
-                    <Text>Descripción</Text>
+                    <Text>DESCRIPTION</Text>
                     <Description>{description}</Description>
                 </ContainerDescription>
                 <ContainerRelease>
-                    <Text>Release Date</Text>
+                    <Text>RELEASE DATE</Text>
                     <Description>{releaseDate}</Description>
                 </ContainerRelease>
                 <ContainerGenres>
-                    <Text>Genres</Text>
+                    <Text>CATEGORIES</Text>
                     <Description>{
                         // eslint-disable-next-line react/prop-types
                         genres.map(genre => (
@@ -138,6 +162,9 @@ const MoviePage = ({title, imagePath, description, voteAverage, releaseDate, gen
                         ))
                     }</Description>
                 </ContainerGenres>
+                <ContainerRecommendations>
+                   <RecommendationBar></RecommendationBar>
+                </ContainerRecommendations>
             </ContainerMovie>            
         </>
     );
