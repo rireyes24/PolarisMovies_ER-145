@@ -1,9 +1,7 @@
-import { Input } from 'antd';
 import { styled } from 'styled-components';
-import { Link } from 'react-router-dom';
 import { pathProcessor } from '../utils/pathProcessor';
 
-const { Search } = Input;
+
 
 const ContainerNavBar = styled.section`
     width: 100%;
@@ -14,6 +12,8 @@ const ContainerNavBar = styled.section`
     justify-content: right;
     padding: 0% 2%;
 `;
+
+
 
 const ContainerMovies = styled.div`
     width: 320px;
@@ -30,7 +30,6 @@ const ContainerMovies = styled.div`
 
 const ContainerMovie = styled.div`
     width: 280px;
-    height: 80px;
     background-color: #f5f5f5;
     border-radius: 10px;
     margin-top: 12px;
@@ -45,6 +44,22 @@ const ContainerMovie = styled.div`
     
 `;
 
+const Search = styled.input`
+    width: 320px;
+    height: 42px;
+    background-color: white;
+    padding-left: 20px;
+    border: none;
+    border-radius: 50px;
+    margin-top: 40px;
+    margin-right: 10px;
+    color: var(--Top-Brick);
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-weight: 500;
+`;
+
 const ImageMovie = styled.img`
     width: 48px;
     height: 100%;
@@ -53,6 +68,23 @@ const ImageMovie = styled.img`
     object-fit: contain;
     justify-self: center;
 `;
+
+const ButtonMovie = styled.button`
+    width: 90%;
+    height: 90%;
+    color: var(--Top-Brick);
+    text-align: left;
+    font-weight: 500;
+    font-size: 16px;
+    font-family: 'Nunito', sans-serif;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+`;
+
 
 // eslint-disable-next-line react/prop-types
 const HeaderSearch = ({refMovie, searchMovie, searchValue, searchData}) => {
@@ -64,13 +96,7 @@ const HeaderSearch = ({refMovie, searchMovie, searchValue, searchData}) => {
                 ref={refMovie}
                 onChange={searchMovie}
                 value={searchValue}
-                placeholder="Buscar Pelicula..." 
-                onSearch={''} 
-                enterButton=''
-                size='large'
-                style={{
-                    width: 300,
-                }}
+                placeholder="Buscar Pelicula..."
             />
             <ContainerMovies>
                 {
@@ -78,18 +104,13 @@ const HeaderSearch = ({refMovie, searchMovie, searchValue, searchData}) => {
                     searchData.map(movie => (
                         <ContainerMovie key={movie.id}>
                             <ImageMovie src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}></ImageMovie>
-                            <Link 
-                                style={{
-                                    textAlign: 'left',
-                                    color: '#323232',
-                                    fontWeight: 700,
-                                    letterSpacing: '1px',
-                                    textDecoration: 'none',
-                                }}
+                            <ButtonMovie 
                                 onClick={() => {
                                     window.location.pathname = `/pelicula/${movie.id}-${pathProcessor(movie.title)}`;
                                 }}
-                            >{movie.title}</Link>
+                            >
+                                {movie.title}
+                            </ButtonMovie>
                         </ContainerMovie>
                     ))            
                 }                

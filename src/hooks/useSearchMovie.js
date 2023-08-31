@@ -11,7 +11,7 @@ const useSearchMovie = () => {
 
     
     const searchMovie = () => {
-    setSearch(refMovie.current.input.value);               
+    setSearch(refMovie.current.value);               
     }
 
     useEffect(() => {

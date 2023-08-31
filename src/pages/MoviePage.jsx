@@ -47,30 +47,28 @@ const ContainerVote = styled.div`
     align-self: center;
 `;
 
-const ContainerDescription = styled.div`
+// Style Base
+const ContainerBase = styled.div`
     width: 100%;
-    height: 90%;
+    height: 100%;    
     display: flex;
     flex-direction: column;
+`;
+
+const ContainerDescription = styled(ContainerBase)`
+    height: 90%;
     justify-self: center;
     grid-column: 3 / 4;
     grid-row: 3 / 4;    
 `;
 
-const ContainerGenres = styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+const ContainerGenres = styled(ContainerBase)`    
     grid-column: 3 / 4;
     grid-row: 4 / 5;    
 `;
 
-const ContainerRelease = styled.div`
-    width: 100%;
+const ContainerRelease = styled(ContainerBase)`
     height: 90%;
-    display: flex;
-    flex-direction: column;
     justify-self: center;
     grid-column: 3 / 4;
     grid-row: 5 / 6;    
