@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 import { GenresTable } from "../components/GenresTable";
 import { pathProcessor } from "../utils/pathProcessor";
 import { useTrends } from "../hooks/useTrends";
+import { LoadingSkeleton } from "../components/LoadingSkeleton";
 
 const Container = styled.section`
     width: 100%;
@@ -41,11 +42,11 @@ const Title = styled.h2`
 // eslint-disable-next-line react/prop-types
 const Home = ({ setDataCategory }) => {
 
-    const trendsData = useTrends();
+    const {trendsData, isLoading} = useTrends();
 
     return(
         <>
-            <Container>
+            {isLoading ? <LoadingSkeleton></LoadingSkeleton> : <Container>
                 <Title>Tendencias</Title>
                 <TrendsScrollBar>
                     {
@@ -66,15 +67,15 @@ const Home = ({ setDataCategory }) => {
                         })
                     }
                 </TrendsScrollBar>
-            </Container>
+            </Container>}
 
-            <Container>
+            {isLoading ? <LoadingSkeleton></LoadingSkeleton> : <Container>
                 <Title>Categorias</Title>
                 <GenresTable
                     setDataCategory={setDataCategory}
                 >
                 </GenresTable>
-            </Container>
+            </Container>}
         </>
     );
 }

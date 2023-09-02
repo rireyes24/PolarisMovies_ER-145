@@ -9,3 +9,4 @@ const getCategories = async () => {
 }
 
 export { getCategories }
+

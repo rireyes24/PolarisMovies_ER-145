@@ -1,4 +1,3 @@
-
 import { useMovieRecommendations } from '../hooks/useMovieRecommendations'
 import { TrendsCards } from "../components/TrendsCards";
 import { pathProcessor } from "../utils/pathProcessor";
@@ -7,7 +6,6 @@ import { pathProcessor } from "../utils/pathProcessor";
 const RecommendationBar = () => {
     
     const dataRecommendations = useMovieRecommendations();
-    console.log(dataRecommendations);
 
     return(
         <>

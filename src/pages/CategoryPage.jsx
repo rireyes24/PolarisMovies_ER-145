@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 import { TrendsCards } from "../components/TrendsCards";
 import { pathProcessor } from "../utils/pathProcessor";
 import { useMovieFilterGenres } from "../hooks/useMovieFilterGenres";
+import { Pagination } from "antd";
 
 const Container = styled.section`
   width: 92%;
@@ -17,11 +18,15 @@ const Container = styled.section`
 
 const GenresPage = () => {
 
-  const discoverData = useMovieFilterGenres();
+  const {discoverData, setNumberPage, categoryName} = useMovieFilterGenres();
+ 
+  function pagination(page){
+    setNumberPage(page);
+  }
 
   return(
       <>
-      <h1>Musica</h1>
+      <h1>{categoryName}</h1>
         <Container>
           {
             discoverData.map(movie => {
@@ -38,8 +43,17 @@ const GenresPage = () => {
               ></TrendsCards> 
               );
             })
-          }
+          }          
         </Container>
+        <Pagination 
+          style={{backgroundColor: "white"}} 
+          defaultCurrent={1} 
+          total={5000} 
+          showSizeChanger={false}  
+          onChange={pagination} 
+          showQuickJumper={true}  
+               
+        ></Pagination>
       </>
   );
 }

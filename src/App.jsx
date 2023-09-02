@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { useGetMovies } from './hooks/useGetMovies'
 import { useSearchMovie } from './hooks/useSearchMovie'
@@ -7,7 +7,6 @@ import { Home } from './pages/HomePage'
 import { GenresPage } from './pages/CategoryPage'
 import { NavigtionBar } from './components/NavigationBar'
 import { HeaderSearch } from './components/HeaderSearch'
-
 import './App.css'
 import { FooterBar } from './components/FooterBar'
 
@@ -17,13 +16,13 @@ function App() {
   const {dataMovies, genresMovie} = useGetMovies();
   const { search, searchData, searchMovie, refMovie } = useSearchMovie();
 
-
   // Category Section
   const [dataCategory, setDataCategory] = useState();
 
   return (
-    <>
-      <Router>        
+    <>    
+    
+        <Router>        
           <NavigtionBar />
           <HeaderSearch 
             refMovie={refMovie}
@@ -33,9 +32,11 @@ function App() {
           ></HeaderSearch>
           <Routes>
 
-            <Route path='/home' exact element={<Home 
-              setDataCategory={setDataCategory}
-            />}></Route>
+            <Route path='/home' exact element={ 
+              <Home 
+                setDataCategory={setDataCategory}
+              />}>
+            </Route>
 
             <Route path="/pelicula/:id" element={
               <MoviePage
