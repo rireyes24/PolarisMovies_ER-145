@@ -1,7 +1,9 @@
 import { Image } from "antd";
+import { MovieContainerSlider } from "../components/MovieContainerSlider";
 import { styled } from "styled-components";
 import { StarFilled } from "@ant-design/icons";
-import { RecommendationBar } from "../components/RecommendationBar";
+import { useMovieRecommendations } from "../hooks/useMovieRecommendations";
+
 import { deleteDecimal } from "../utils/deleteDecimalAverage";
 
 const ContainerMovie = styled.section`
@@ -101,26 +103,17 @@ const Genres = styled.div`
 
 const ContainerRecommendations = styled.div`
     width: 100%;
-    height: 440px;
-    display: flex;
+    height: 100%;
     grid-column: 1 / 4;
-    grid-row: 7 / 8;   
-    position: relative;
-    overflow-y: hidden;
-    transition: height .5s linear;
-    overflow-x: scroll;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x proximity;
-    padding: 20px 10px;
+    grid-row: 7 / 8;  
     margin-bottom: 40px;
-    align-self: center;
-
 `;
 
 // eslint-disable-next-line react/prop-types, no-unused-vars
 const MoviePage = ({title, imagePath, description, voteAverage, releaseDate, genres}) => {
 
-    const completeImageURL = `https://image.tmdb.org/t/p/w500${imagePath}`;   
+    const completeImageURL = `https://image.tmdb.org/t/p/w500${imagePath}`;  
+    const dataRecommendations = useMovieRecommendations();
 
     return(
         <>            
@@ -159,10 +152,14 @@ const MoviePage = ({title, imagePath, description, voteAverage, releaseDate, gen
                             </Genres>
                         ))
                     }</Description>
-                </ContainerGenres>
+                </ContainerGenres>   
                 <ContainerRecommendations>
-                   <RecommendationBar></RecommendationBar>
-                </ContainerRecommendations>
+                    <MovieContainerSlider
+                        movieData={dataRecommendations}
+                    >
+                    </MovieContainerSlider>
+                </ContainerRecommendations>             
+                
             </ContainerMovie>            
         </>
     );

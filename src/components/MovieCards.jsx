@@ -3,34 +3,51 @@ import { styled } from "styled-components";
 const CardD = styled.div`
     position: relative;
     display: grid;
-    grid-template-rows: 80% 15% 5%;
+    grid-template-rows: 78% 14% 8%;
     width: 100%;
-    height: 368px;
-    border-radius: 10px;
     min-width: 190px;
     max-width: 200px;
+    height: 100%;
+    max-height: 368px;
+    border-radius: 10px;    
     scroll-snap-align: center;
     margin-left: 20px;
     background-color: white;
     overflow: hidden;
     cursor: pointer;
+    animation: transform 5s ease-in-out;
+    
+    
+    &:hover{
+        transform: scale(1.06);
+        animation: transform 5s ease-in-out;
+    }
+  
 `
 
 const Image = styled.img`
     width: 100%;
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover;
     overflow: hidden;
 `;
 
-const H3 = styled.h4`
+
+const TextBase = styled.h4`    
     color: var(--Top-Brick);
-`
-const H5 = styled.h5`
-    color: var(--Top-Brick);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2%;
+`;
+
+const H5 = styled(TextBase)`
+    font-size: 14px; 
+    font-weight: 300;   
 `
 
 // eslint-disable-next-line react/prop-types
-const TrendsCards = ({imagePath, title, year, goMovie}) => {
+const MovieCards = ({imagePath, title, year, goMovie}) => {
 
     const completeImageURL = `https://image.tmdb.org/t/p/w500${imagePath}`;
 
@@ -39,13 +56,10 @@ const TrendsCards = ({imagePath, title, year, goMovie}) => {
             onClick={() => goMovie()}
         >
             <Image src={completeImageURL} alt={title} />
-            <H3>{title}</H3>
-            <H5>{year}</H5>
+            <TextBase>{title}</TextBase>
+            <H5>({year})</H5>
         </CardD>
     );
 }
 
-export { TrendsCards }
-
-
-//     scroll-snap-align: center;
+export { MovieCards }

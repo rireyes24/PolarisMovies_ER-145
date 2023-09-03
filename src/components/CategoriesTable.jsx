@@ -3,26 +3,38 @@ import { colors } from "../utils/colors";
 import { pathProcessor } from "../utils/pathProcessor";
 import { useCategories } from "../hooks/useCategories";
 
-const Table = styled.div`
-    width: 80%;
-    height: 300px;
-    display: grid;
-    grid-template-columns: repeat(5, 20%);
-    grid-template-rows: repeat(4, 25%);
+const ContainerTable = styled.ul`
+    width: 88%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;    
     margin: 0 auto;
     margin-top: 40px;
+    gap: 20px;
+`;
+
+const ContainerItem = styled.li`
+    width: 180px;
+    height: 60px;   
+    display: flex;    
+    justify-content: center;
+    align-items: center;
+    justify-self: right;
+    align-self: center;
 `;
 
 const BlockColors = styled.div`
     width: 30px;
     height: 30px;   
     display: block;
-    border-radius: 8px;
+    border-radius: 8px;    
+    cursor: pointer;
 `;
 
 const H4 = styled.button`
-    width: 80%;
+    width: 120px;
     height: 20px;   
     display: block;
     background: transparent;
@@ -31,16 +43,10 @@ const H4 = styled.button`
     font-size: 18px;
     text-align: left;
     margin-left: 16px;
-`;
 
-const ContainerItem = styled.div`
-    width: 80%;
-    height: 100%;   
-    display: flex;    
-    justify-content: center;
-    align-items: center;
-    justify-self: right;
-    align-self: center;
+    &:hover{
+        color: #d1d1d1;
+    }
 `;
 
 
@@ -50,22 +56,27 @@ const GenresTable = () => {
     const dataCategories = useCategories();
 
     return(
-        <Table>
+        <ContainerTable>
             {
                 dataCategories.map((category, index) => {
                     return(
                         <ContainerItem key={category.id}>
-                            <BlockColors style={{backgroundColor: colors[index]}}></BlockColors>
-                            <H4 onClick={() => {
+                            <BlockColors 
+                                style={{backgroundColor: colors[index]}} 
+                                onClick={() => {
                                     window.location.pathname = `category/${category.id}-${pathProcessor(category.name)}`; 
-                                }} >{category.name}
+                                }}
+                            ></BlockColors>
+                            <H4 
+                                onClick={() => {
+                                    window.location.pathname = `category/${category.id}-${pathProcessor(category.name)}`; 
+                                }}>{category.name}
                             </H4>
-                            <p></p>
                         </ContainerItem>
                     )
                 })
             }                    
-        </Table>
+        </ContainerTable>
     );
 }
 

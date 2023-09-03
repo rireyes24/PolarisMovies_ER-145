@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { useGetMovies } from './hooks/useGetMovies'
 import { useSearchMovie } from './hooks/useSearchMovie'
 import { MoviePage } from './pages/MoviePage'
 import { Home } from './pages/HomePage'
-import { GenresPage } from './pages/CategoryPage'
+import { CategoryPage } from './pages/CategoryPage'
 import { NavigtionBar } from './components/NavigationBar'
 import { HeaderSearch } from './components/HeaderSearch'
 import './App.css'
@@ -50,10 +50,10 @@ function App() {
             }></Route>
 
             <Route path="/category/:id" element={
-              <GenresPage
+              <CategoryPage
                 dataCategory={dataCategory}
-              ></GenresPage>}
-            ></Route>
+              ></CategoryPage>
+            }></Route>
 
             <Route path='*' element={
               <h1>Error 404 - Not Found</h1>
