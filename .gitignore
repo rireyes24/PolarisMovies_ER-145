@@ -26,3 +26,5 @@ dist-ssr
 
 # Archivos no subidos al repositorio.
 config.json
+.env.development
+.env.production
