@@ -32,6 +32,11 @@ function App() {
           ></HeaderSearch>
           <Routes>
 
+            <Route path='/' exact element={ 
+              <Home 
+                setDataCategory={setDataCategory}
+              />}>
+            </Route>
             <Route path='/home' exact element={ 
               <Home 
                 setDataCategory={setDataCategory}
