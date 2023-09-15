@@ -20,5 +20,6 @@ export default defineConfig(({command, mode}) => {
 
   return {
     plugins: [react()], 
+    base: '/PolarisMovies_ER-145/'
   }
 })
